@@ -2,20 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+
+	"github.com/zTico/ApiRestGo/models"
+	"github.com/zTico/ApiRestGo/routes"
 )
 
 func main() {
-	fmt.Println("oi")
-	HandleRequest()
-}
+	models.Personalities = []models.Personalitie{
+		{Name: "Nome 1", History: "Historia 1"},
+		{Name: "Nome 2", History: "Historia 2"},
+	}
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Home Page")
-}
-
-func HandleRequest() {
-	http.HandleFunc("/", Home)
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	fmt.Println("Iniciando servidor...")
+	routes.HandleRequest()
 }
