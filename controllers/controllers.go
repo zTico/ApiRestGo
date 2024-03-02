@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/zTico/ApiRestGo/database"
 	"github.com/zTico/ApiRestGo/models"
 )
 
@@ -15,7 +16,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func AllPersonalities(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(models.Personalities)
+	var personalities []models.Personalitie
+
+	database.DB.Find(&personalities)
+
+	json.NewEncoder(w).Encode(personalities)
 }
 
 func ReturnOnePersonalitie(w http.ResponseWriter, r *http.Request) {
