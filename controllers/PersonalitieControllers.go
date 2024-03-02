@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/zTico/ApiRestGo/database"
@@ -28,9 +27,19 @@ func ReturnOnePersonalitie(w http.ResponseWriter, r *http.Request) {
 
 	id := vars["id"]
 
-	for _, personalitie := range models.Personalities {
-		if strconv.Itoa(personalitie.Id) == id {
-			json.NewEncoder(w).Encode(personalitie)
-		}
-	}
+	var personalitie models.Personalitie
+
+	database.DB.First(&personalitie, id)
+
+	json.NewEncoder(w).Encode(personalitie)
+}
+
+func CreateNewData(w http.ResponseWriter, r *http.Request) {
+	var newPersonalidade models.Personalitie
+
+	json.NewDecoder(r.Body).Decode(&newPersonalidade)
+
+	database.DB.Create(&newPersonalidade)
+
+	json.NewEncoder(w).Encode(newPersonalidade)
 }
